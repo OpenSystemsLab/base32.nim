@@ -1,5 +1,3 @@
-from math import ceil
-
 const
   base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 
