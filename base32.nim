@@ -1,5 +1,5 @@
 const
-  base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+  base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567="
 
 
 proc encode*(s: string): string =
@@ -41,4 +41,34 @@ proc encode*(s: string): string =
     j += 1
   if j < len:
     for i in j..len-1:
-      result[i] = '='
+      result[i] = base32Chars[32]
+
+
+proc decode*(s: string): string =
+  var ch, idx, bits, buf: int = 0
+  let len = (s.len * 5 / 8).int
+
+  result = newString(len)
+
+  for i in 0..s.len-1:
+    ch = s[i].int
+
+    case ch
+    of 0x41..0x5A, 0x61..0x7A:
+      ch = (ch and 0x1F) - 1
+    of 0x32..0x37:
+      ch -= 0x32 - 26
+    of 0x3D:
+      continue
+    else:
+      raise newException(ValueError, "Non-base32 digit found: " & $ch)
+
+    buf = buf shl 5
+    buf = buf xor ch
+    bits += 5
+
+    if bits >= 8:
+      result[idx] = char((buf shr (bits - 8)) and 0xFF)
+      bits -= 8
+      idx += 1
+  setLen(result, idx)
