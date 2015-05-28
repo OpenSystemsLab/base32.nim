@@ -1,6 +1,7 @@
 const
-  base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567="
+  VERSION* = "0.1.1"
 
+  base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567="
 
 proc encode*(s: string): string =
   var i, j, idx, digit: int = 0
@@ -51,7 +52,7 @@ proc decode*(s: string): string =
   result = newString(len)
 
   for i in 0..s.len-1:
-    ch = s[i].int
+    ch = s[i].ord
 
     case ch
     of 0x41..0x5A, 0x61..0x7A:
@@ -68,7 +69,8 @@ proc decode*(s: string): string =
     bits += 5
 
     if bits >= 8:
-      result[idx] = char((buf shr (bits - 8)) and 0xFF)
       bits -= 8
+      result[idx] = char(buf shr bits and 0xFF)
       idx += 1
-  setLen(result, idx)
+  if idx < len:
+    setLen(result, idx)
