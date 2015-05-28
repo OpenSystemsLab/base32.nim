@@ -1,3 +1,13 @@
+#
+#          Nim's Unofficial Library
+#        (c) Copyright 2015 Huy Doan
+#
+#    See the file "LICENSE", included in this
+#    distribution, for details about the copyright.
+#
+
+## This module implements a base32 encoder and decoder.
+
 const
   VERSION* = "0.1.1"
 
