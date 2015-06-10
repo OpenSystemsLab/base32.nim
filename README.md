@@ -16,8 +16,9 @@ Changes
 
 Usage
 =====
-
+```nim
     import base32
 
     let e = encode("Hello")
     assert decode(e) == "JBSWY3DP"
+```
