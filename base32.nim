@@ -13,7 +13,7 @@ const
 
   base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567="
 
-proc encode*(s: string): string =
+proc encode*(s: openArray[char]): string =
   var i, j, idx, digit: int = 0
   var current, next: int
 
@@ -55,7 +55,7 @@ proc encode*(s: string): string =
       result[i] = base32Chars[32]
 
 
-proc decode*(s: string): string =
+proc decode*(s: openArray[char]): string =
   var ch, idx, bits, buf: int = 0
   let len = (s.len * 5 / 8).int
 
