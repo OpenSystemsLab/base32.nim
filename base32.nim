@@ -9,7 +9,7 @@
 ## This module implements a base32 encoder and decoder.
 
 const
-  VERSION* = "0.1.1"
+  VERSION* = "0.1.2"
 
   base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567="
 
