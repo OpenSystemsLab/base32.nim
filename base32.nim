@@ -13,7 +13,7 @@ const
 
   base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567="
 
-proc encode*(s: openArray[char]): string =
+proc encode*(s: openArray[char]; pad=true): string =
   var i, j, idx, digit: int = 0
   var current, next: int
 
@@ -25,14 +25,10 @@ proc encode*(s: openArray[char]): string =
 
   while i < s.len:
     current = s[i].ord
-    if current == 0:
-      current = 256;
 
     if idx > 3:
       if i + 1 < s.len:
         next = s[i+1].ord
-        if next == 0:
-          next = 256
       else:
         next = 0
 
@@ -50,10 +46,11 @@ proc encode*(s: openArray[char]): string =
 
     result[j] = base32Chars[digit]
     j += 1
-  if j < len:
-    for i in j..len-1:
+  if pad:
+    for i in j..<len:
       result[i] = base32Chars[32]
-
+  else:
+    result.setLen j
 
 proc decode*(s: openArray[char]): string =
   var ch, idx, bits, buf: int = 0
